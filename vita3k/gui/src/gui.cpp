@@ -902,11 +902,16 @@ void draw_vita_area(GuiState &gui, EmuEnvState &emuenv) {
     if (gui.vita_area.app_close)
         draw_app_close(gui, emuenv);
 
-    if (gui.vita_area.home_screen)
-        draw_home_screen(gui, emuenv);
-
-    if (gui.vita_area.livearea_bubbles)
-        draw_livearea_bubbles(gui, emuenv);
+    if (gui.vita_area.home_screen) {
+        // Show LiveArea bubbles if enabled in config, otherwise classic home screen
+        if (emuenv.cfg.livearea_bubbles) {
+            gui.vita_area.livearea_bubbles = true;
+            draw_livearea_bubbles(gui, emuenv);
+        } else {
+            gui.vita_area.livearea_bubbles = false;
+            draw_home_screen(gui, emuenv);
+        }
+    }
 
     if (gui.vita_area.live_area_screen)
         draw_live_area_screen(gui, emuenv);

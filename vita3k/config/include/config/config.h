@@ -65,6 +65,7 @@ enum ScreenshotFormat {
     code(bool, "show-gui", false, show_gui)                                                             \
     code(bool, "show-info-bar", false, show_info_bar)                                                   \
     code(bool, "apps-list-grid", false, apps_list_grid)                                                 \
+    code(bool, "livearea-bubbles", false, livearea_bubbles)                                                 \
     code(bool, "display-system-apps", true, display_system_apps)                                        \
     code(bool, "stretch_the_display_area", false, stretch_the_display_area)                             \
     code(bool, "fullscreen_hd_res_pixel_perfect", false, fullscreen_hd_res_pixel_perfect)               \
