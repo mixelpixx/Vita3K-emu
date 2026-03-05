@@ -1,23 +1,27 @@
-# Vita3K
+# Vita3K-emu
 
-[![C/C++ CI](https://github.com/Vita3K/Vita3K/actions/workflows/c-cpp.yml/badge.svg)](https://github.com/Vita3K/Vita3K/actions/workflows/c-cpp.yml)
-[![Release](https://img.shields.io/github/v/release/Vita3K/Vita3K-builds?include_prereleases)](https://github.com/Vita3K/Vita3K/releases)
-[![Vita3K discord server](https://img.shields.io/discord/408916678911459329?color=5865F2&label=Vita3K%20&logo=discord&logoColor=white)](https://discord.gg/6aGwQzh)
+[![C/C++ CI](https://github.com/mixelpixx/Vita3K-emu/actions/workflows/c-cpp.yml/badge.svg)](https://github.com/mixelpixx/Vita3K-emu/actions/workflows/c-cpp.yml)
+[![Based on Vita3K](https://img.shields.io/badge/based%20on-Vita3K-blue)](https://github.com/Vita3K/Vita3K)
 
-## Introduction
+## 🎮 Project Vision
 
-Vita3K is an experimental PlayStation Vita emulator for Windows, Linux, macOS and Android.
+**Vita3K-emu** is a PlayStation Vita emulator fork focused on:
+- **1:1 Hardware Accuracy** — Authentic PS Vita behavior
+- **LiveArea UI** — Recreating the iconic Vita home screen experience
+- **Multi-Platform Polish** — Optimized for Desktop, Android, and Steam Deck
 
-* [Website](https://vita3k.org/) (information for users)
-* [Wiki](https://github.com/Vita3K/Vita3K/wiki) (information for developers)
-* [Discord server](https://discord.gg/MaWhJVH) (recommended)
+> *Based on the excellent [Vita3K](https://github.com/Vita3K/Vita3K) project*
 
-## Compatibility
+## ✨ What's Different
 
-The emulator currently runs most homebrew programs and commercial games.
+| Feature | Status |
+|---------|--------|
+| Authentic LiveArea home screen | 🔨 In Development |
+| Bubble icons with animations | 📋 Planned |
+| Native Vita UI recreation | 📋 Planned |
+| Enhanced controller support | 📋 Planned |
 
-- [Homebrew compatibility page](https://vita3k.org/compatibility-homebrew.html)
-- [Commercial compatibility page](https://vita3k.org/compatibility.html)
+See our [Development Roadmap](./docs/ROADMAP.md) for the full plan.
 
 ## Gallery
 
@@ -29,54 +33,67 @@ The emulator currently runs most homebrew programs and commercial games.
 | :------------------------------------------------------------------------: | :------------------------------------------------------------------: |
 | ![Alone with You screenshot](./_readme/screenshots/Alone%20With%20You.png) | ![VA-11 HALL-A screenshot](./_readme/screenshots/VA-11%20HALL-A.png) |
 
-|              **Fruit Ninja** by Halfbrick Studios                  |                **Jetpack Joyride** by Halfbrick Studios                    |
-| :----------------------------------------------------------------: | :------------------------------------------------------------------------: |
-| ![Fruit Ninja Screenshot](./_readme/screenshots/Fruit%20Ninja.png) | ![Jetpack Joyride Screenshot](./_readme/screenshots/Jetpack%20Joyride.png) |
+## Compatibility
 
-## License
+The emulator runs most homebrew programs and commercial games.
 
-Vita3K is licensed under the **GPLv2** license. This is largely dictated by external dependencies, most notably Unicorn.
-
-## Downloads
-
-You can download the latest builds from [here](https://github.com/Vita3K/Vita3K/releases/tag/continuous).
-
-* Windows
-  * Requirements:
-    * [Microsoft Visual C++ 2015-2022 Redistributable](https://aka.ms/vs/17/release/vc_redist.x64.exe)
-* Linux
-  * Arch based:
-    * [vita3k-bin](https://aur.archlinux.org/packages/vita3k-bin)<sup><small>AUR</small></sup>
-    * [vita3k-git](https://aur.archlinux.org/packages/vita3k-git)<sup><small>AUR</small></sup>
-  * Requirements:
-    * xdg-desktop-portal
-* [Android](https://github.com/Vita3K/Vita3K-Android/releases/)
-    * [Adreno drivers](https://github.com/K11MCH1/AdrenoToolsDrivers/releases/)
-* Others
-  * [Download Artifact](https://github.com/Vita3K/Vita3K/actions?query=event%3Apush+is%3Asuccess+branch%3Amaster)
-  * [Old builds](https://github.com/Vita3K/Vita3K-builds/releases)
+- [Homebrew compatibility](https://vita3k.org/compatibility-homebrew.html)
+- [Commercial compatibility](https://vita3k.org/compatibility.html)
 
 ## Building
 
-Please see [`building.md`](./building.md).
+See [`building.md`](./building.md) for build instructions.
+
+### Quick Start (Linux)
+
+```bash
+# Clone with submodules
+git clone --recursive https://github.com/mixelpixx/Vita3K-emu.git
+cd Vita3K-emu
+
+# Build
+cmake --preset linux-ninja-clang
+cmake --build build/linux-ninja-clang -j$(nproc)
+```
 
 ## Running
-Check our [quickstart guide](https://vita3k.org/quickstart) to make sure your computer meets the minimum requirements to run Vita3K.  
-Don't forget to have your graphics driver up to date and to install the [Visual C++ 2015-2022 Redistributable](https://aka.ms/vs/17/release/VC_redist.x64.exe) if you are a Windows user.  
 
-## Bugs and issues
-The project is in an early stage, so please be mindful when opening new issues. Expect crashes, glitches, low compatibility and poor performance.
+Check the [quickstart guide](https://vita3k.org/quickstart) for system requirements.
 
-## Thanks
-Thanks go out to people who offered advice or otherwise made this project possible, such as Davee, korruptor, Rinnegatamante, ScHlAuChi, Simon Kilroy, TheFlow, xerpi, xyz, Yifan Lu and many others.
+**Requirements:**
+- Windows: [Visual C++ 2015-2022 Redistributable](https://aka.ms/vs/17/release/vc_redist.x64.exe)
+- Linux: xdg-desktop-portal
+- Android: [Adreno drivers](https://github.com/K11MCH1/AdrenoToolsDrivers/releases/) (for Adreno GPUs)
 
-## Donations
+## Development
+
+See [`CLAUDE.md`](./CLAUDE.md) for development setup and architecture overview.
+
+### Branch Structure
+- `main` — Stable releases
+- `develop` — Integration branch
+- `ui/livearea` — LiveArea UI development
+
+## License
+
+GPLv2 — See [COPYING.txt](./COPYING.txt)
+
+## Credits
+
+**Upstream Project:**
+- [Vita3K Team](https://github.com/Vita3K/Vita3K) — The amazing team behind the original emulator
+
+**Original Thanks:**
+Davee, korruptor, Rinnegatamante, ScHlAuChi, Simon Kilroy, TheFlow, xerpi, xyz, Yifan Lu, and many others.
+
+## Support Upstream
+
+The original Vita3K project needs your support!
+
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/vita3k)
-<br>
-Thank you to the supporters and to all those who support us on our [ko-fi](https://ko-fi.com/vita3K).
-* Among them, those who subscribed to the Nibble Tier and upper: **j0hnnybrav0, Mored4u, TacoOblivion, Undeadbob and uplush**
 
-## Note
-The purpose of this emulator is not to enable illegal activity. You can dump games from a Vita by using [NoNpDrm](https://github.com/TheOfficialFloW/NoNpDrm) or [FAGDec](https://github.com/CelesteBlue-dev/PSVita-RE-tools/tree/master/FAGDec/build). You can get homebrew programs from [VitaDB](https://www.rinnegatamante.eu/vitadb/#/).
+## Legal
 
-PlayStation, PlayStation Vita and PlayStation Network are all registered trademarks of Sony Interactive Entertainment Inc. This emulator is not related to or endorsed by Sony, or derived from confidential materials belonging to Sony.
+This emulator is not for piracy. Dump games using [NoNpDrm](https://github.com/TheOfficialFloW/NoNpDrm) or [FAGDec](https://github.com/CelesteBlue-dev/PSVita-RE-tools/tree/master/FAGDec/build). Get homebrew from [VitaDB](https://www.rinnegatamante.eu/vitadb/#/).
+
+PlayStation, PlayStation Vita, and PlayStation Network are registered trademarks of Sony Interactive Entertainment Inc.
