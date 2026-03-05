@@ -270,10 +270,17 @@ struct BubbleGridState {
     float bubble_press_scale = 1.0f;  // For press animation
     int pressed_app_index = -1;
 
+    // Swipe gesture tracking
+    bool is_dragging = false;
+    float drag_start_x = 0.f;
+    float drag_offset = 0.f;  // Real-time drag offset for visual feedback
+    static constexpr float swipe_threshold = 80.f;  // Pixels to trigger page change
+
     int get_apps_per_page() const { return bubbles_per_row * rows_per_page; }
     void start_scroll(int to_page);
     void update();
     float get_scroll_offset() const;
+    float get_drag_offset() const { return is_dragging ? drag_offset : 0.f; }
 };
 
 struct GateAnimation {

@@ -245,8 +245,10 @@ void draw_livearea_bubbles(GuiState &gui, EmuEnvState &emuenv) {
         ImGuiWindowFlags_NoSavedSettings
     );
 
-    // Calculate scroll offset for page transition animation
+    // Calculate scroll offset for page transition animation + drag feedback
     float scroll_offset = gui.bubble_grid.get_scroll_offset() * VIEWPORT_SIZE.x;
+    // Add real-time drag offset for swipe feedback
+    scroll_offset += gui.bubble_grid.get_drag_offset();
     int display_page = gui.bubble_grid.current_page;
 
     // Draw bubbles for current page
@@ -309,7 +311,7 @@ void draw_livearea_bubbles(GuiState &gui, EmuEnvState &emuenv) {
     // Draw page indicators
     draw_page_indicators(VIEWPORT_POS, VIEWPORT_SIZE, total_pages, display_page, SCALE);
 
-    // Handle page navigation via swipe or keyboard
+    // Handle page navigation via swipe, mouse wheel, or keyboard
     if (ImGui::IsWindowHovered()) {
         // Mouse wheel for page navigation
         float wheel = ImGui::GetIO().MouseWheel;
@@ -326,10 +328,53 @@ void draw_livearea_bubbles(GuiState &gui, EmuEnvState &emuenv) {
         if (ImGui::IsKeyPressed(ImGuiKey_RightArrow) && display_page < total_pages - 1) {
             gui.bubble_grid.start_scroll(display_page + 1);
         }
+
+        // Touch/mouse swipe gesture handling
+        if (ImGui::IsMouseDragging(ImGuiMouseButton_Left)) {
+            ImVec2 drag_delta = ImGui::GetMouseDragDelta(ImGuiMouseButton_Left);
+            
+            // Start tracking drag if significant horizontal movement
+            if (!gui.bubble_grid.is_dragging && std::abs(drag_delta.x) > 10.0f * SCALE) {
+                // Only start drag if horizontal movement exceeds vertical
+                if (std::abs(drag_delta.x) > std::abs(drag_delta.y) * 1.5f) {
+                    gui.bubble_grid.is_dragging = true;
+                    gui.bubble_grid.drag_start_x = ImGui::GetIO().MousePos.x;
+                    gui.bubble_grid.pressed_app_index = -1;  // Cancel any bubble press
+                }
+            }
+
+            // Update drag offset for visual feedback
+            if (gui.bubble_grid.is_dragging) {
+                gui.bubble_grid.drag_offset = drag_delta.x;
+                
+                // Limit drag at edges (rubber band effect)
+                if (display_page == 0 && drag_delta.x > 0) {
+                    gui.bubble_grid.drag_offset = drag_delta.x * 0.3f;  // Resistance at left edge
+                } else if (display_page >= total_pages - 1 && drag_delta.x < 0) {
+                    gui.bubble_grid.drag_offset = drag_delta.x * 0.3f;  // Resistance at right edge
+                }
+            }
+        }
     }
 
-    // Reset pressed state if mouse not down
-    if (!ImGui::IsMouseDown(ImGuiMouseButton_Left)) {
+    // Handle swipe release
+    if (gui.bubble_grid.is_dragging && !ImGui::IsMouseDown(ImGuiMouseButton_Left)) {
+        float swipe_threshold = gui.bubble_grid.swipe_threshold * SCALE;
+        
+        if (gui.bubble_grid.drag_offset < -swipe_threshold && display_page < total_pages - 1) {
+            // Swipe left -> next page
+            gui.bubble_grid.start_scroll(display_page + 1);
+        } else if (gui.bubble_grid.drag_offset > swipe_threshold && display_page > 0) {
+            // Swipe right -> previous page
+            gui.bubble_grid.start_scroll(display_page - 1);
+        }
+        
+        gui.bubble_grid.is_dragging = false;
+        gui.bubble_grid.drag_offset = 0.f;
+    }
+
+    // Reset pressed state if mouse not down and not dragging
+    if (!ImGui::IsMouseDown(ImGuiMouseButton_Left) && !gui.bubble_grid.is_dragging) {
         gui.bubble_grid.pressed_app_index = -1;
     }
 
