@@ -905,6 +905,9 @@ void draw_vita_area(GuiState &gui, EmuEnvState &emuenv) {
     if (gui.vita_area.home_screen)
         draw_home_screen(gui, emuenv);
 
+    if (gui.vita_area.livearea_bubbles)
+        draw_livearea_bubbles(gui, emuenv);
+
     if (gui.vita_area.live_area_screen)
         draw_live_area_screen(gui, emuenv);
     if (gui.vita_area.manual)

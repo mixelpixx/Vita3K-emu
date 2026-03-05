@@ -24,6 +24,7 @@ set(GUI_SOURCES
 	src/initial_setup.cpp
 	src/license_install_dialog.cpp
 	src/live_area.cpp
+	src/livearea_bubbles.cpp
 	src/main_menubar.cpp
 	src/manual.cpp
 	src/mutexes_dialog.cpp

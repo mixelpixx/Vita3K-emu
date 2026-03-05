@@ -118,6 +118,7 @@ struct VitaAreaState {
     bool home_screen = false;
     bool information_bar = false;
     bool live_area_screen = false;
+    bool livearea_bubbles = false;  // Authentic PS Vita bubble grid home screen
     bool manual = false;
     bool settings = false;
     bool start_screen = false;
@@ -254,6 +255,27 @@ enum class GateAnimationState {
     ReturnApp
 };
 
+// LiveArea bubble grid page animation state
+struct BubbleGridState {
+    int current_page = 0;
+    int target_page = 0;
+    float scroll_progress = 0.f;
+    float scroll_velocity = 0.f;
+    bool is_scrolling = false;
+    std::chrono::steady_clock::time_point scroll_start_time;
+    static constexpr float scroll_duration = 0.25f;  // 250ms page transition
+    static constexpr int bubbles_per_row = 4;
+    static constexpr int rows_per_page = 2;
+    int selected_app_index = -1;
+    float bubble_press_scale = 1.0f;  // For press animation
+    int pressed_app_index = -1;
+
+    int get_apps_per_page() const { return bubbles_per_row * rows_per_page; }
+    void start_scroll(int to_page);
+    void update();
+    float get_scroll_offset() const;
+};
+
 struct GateAnimation {
     GateAnimationState state = GateAnimationState::None;
     static constexpr float duration = 0.32f;
@@ -348,6 +370,7 @@ struct GuiState {
     InfoBarColor information_bar_color;
 
     GateAnimation gate_animation{};
+    BubbleGridState bubble_grid{};  // LiveArea bubble grid state
     ImGui_Texture live_area_last_app_frame;
     std::map<std::string, std::map<std::string, ImGui_Texture>> live_area_contents;
     std::map<std::string, std::map<std::string, std::map<std::string, std::vector<ImGui_Texture>>>> live_items;
